@@ -1,0 +1,43 @@
+
+/* Estilos para el tablero */
+.board {
+  width: 500px;
+  height: 500px;
+  margin: 20px;
+  border: 10px solid #000;
+  border-radius: 4px;
+  background-color: rgb(204, 204, 126);
+  box-shadow: 5px 5px 8px #bebdb6, -5px -5px 8px #ffffff;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para las piezas */
+.piece {
+  background-color: black;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  border: 1px solid black; /* Add border */
+}
+
+.piece.white {
+  background-color: white;
+}
+
+/* Estilos para los espacios vacíos */
+.empty {
+  background-color: transparent;
+  border: 1px solid black; /* Add border */
+}
+
+
+
+
