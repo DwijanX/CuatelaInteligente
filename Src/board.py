@@ -16,8 +16,25 @@ class Board:
         self.__fillPieces()
     def getBoard(self):
         return self.board
+    def getDim(self):
+        return self.dim
     def movePiece(self,startCoords,nextCoords):
         self.board[nextCoords[0]][nextCoords[1]]=self.board[startCoords[0]][startCoords[1]]
         self.board[startCoords[0]][startCoords[1]]=EmptyCell
+        print("Moved")
     def getPieceInCoords(self,coords):
         return self.board[coords[0]][coords[1]]
+    def printBoardConsole(self):
+        for r in self.board:
+            print(r)
+    def getCoordsOfPiecesOfPlayer(self,player):
+        playerCoords=[]
+        coordsFound=0
+        for r in range(self.dim):
+            for c in range(self.dim):
+                if self.board[r][c]==player:
+                    playerCoords.append((r,c))
+                    coordsFound+=1
+                    if coordsFound==self.dim:
+                        break
+        return playerCoords
