@@ -43,18 +43,16 @@ class Game():
             
     def startGame(self):
         #print(json.dumps({'board': self.board.getBoard()}))
-        #requests.post(self.urlToConfirmMove, json =json.dumps({'board': self.board.getBoard()}) )
-
         while(1):
             self.board.printBoardConsole()
             if self.turn==Max:
-                self.__askForPlay(self.player1)
+                moves=self.__askForPlay(self.player1)
                 self.turn=Min
             else:
-                self.__askForPlay(self.player2)
+                moves=self.__askForPlay(self.player2)
                 self.turn = Max
             print("saliendo del turno")
-            #requests.post(self.urlToConfirmMove, json = json.dumps({'board': self.board.getBoard()}))
+            requests.post(self.urlToConfirmMove, json = json.dumps({'moves': moves}))
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break

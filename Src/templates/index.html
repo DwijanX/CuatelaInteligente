@@ -13,18 +13,18 @@
     <h3>Christian Rivero</h3>
     <div class="container">
     <div class="board">
-        <!--{% for row in board %}
+       <!-- {% for row in board %}
         <div class="file">
-          {% for type in row %}
+          {% for index in [0,1,2,3] %}
             <div class="square">
-              {% if type==0 %}
-              <p>0</p>
+              {% if row[index]==0 %}
+              <div class="piece empty"></div>
               {% endif %}
-              {% if type==1 %}
+              {% if row[index]==1 %}
               <div class="piece black"></div>
               {% endif %}
-              {% if type==2 %}
-              <p>2</p>
+              {% if row[index]==2 %}
+              <div class="piece white"></div>
               {% endif %}
             </div>
           {% endfor %}

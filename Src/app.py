@@ -3,10 +3,12 @@ from flask import Flask, render_template, request, jsonify,redirect,url_for
 import json
 import mediator
 import game
+import time
 
 app=Flask(__name__)
 gameStart = None
-
+receivedNewMoves=False
+lastMoves=[]
 #creates game.py environment after html was created
 @app.route('/start_game')
 def start_game():
@@ -48,12 +50,24 @@ def move():
     # return moves from python
     response = jsonify({'success': True})
     return response
+@app.route('/askForNewMoves', methods=['POST'])
+def askForNewMoves():
+    global receivedNewMoves
+    global lastMoves
+    print("asked")
+    while receivedNewMoves==False:
+        time.sleep(0.1)
+    receivedNewMoves=False
+    print("Ready to send")
+    return json.dumps(lastMoves)
 
 @app.route('/sendBoard', methods=['POST'])
 def confirmMove():
-    board=json.loads(request.get_json())["board"]
-    print("llego",board)
-    return redirect(url_for("index", board=board))
+    global receivedNewMoves
+    global lastMoves
+    lastMoves=json.loads(request.get_json())["moves"]
+    receivedNewMoves=True
+    return "OK"
 
 @app.route('/')
 def index():

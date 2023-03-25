@@ -24,7 +24,22 @@ function moveSquare(fileIndex,rankIndex) {
       squareToMove = fileIndex.toString() + rankIndex.toString();
     }
   }
-
+function updateBoard(Coords)
+{
+  console.log(Coords)
+  originCoords=Coords[0]
+  nextCoords=Coords[1]
+}
+  async function receiveMoves()
+  {
+    await fetch('http://127.0.0.1:5000/askForNewMoves', {
+      method: 'POST'
+    })
+    .then((response) => response.json()) 
+    .then((data) => {
+      updateBoard(data)
+    });
+  }
   function sendMoves(){
     if (selectedSquare != null && squareToMove != null) {
         var moves = {
@@ -44,9 +59,9 @@ function moveSquare(fileIndex,rankIndex) {
             }
         };
         xhr.send(JSON.stringify(moves));
-
         selectedSquare = null;
         squareToMove = null;
+        receiveMoves()
     }
 }
 
@@ -84,6 +99,7 @@ squares.forEach(square => {
       console.log(square)
       moveSquare(fileIndex, rankIndex);
       sendMoves();
+      
     });
   });
 
