@@ -5,17 +5,15 @@ import botPlayer as bp
 import boardValidator as bv
 import mediator
 import time
-import requests
-import json
+
 Max=1
 Min=2
 class Game():
-    def __init__(self, mediator:mediator.playerWaitingForAnswer) -> None:
+    def __init__(self, mediator:mediator.gameMediator) -> None:
         self.board = board.Board()
         self.boardValidator=bv.boardValidator(self.board)
         self.mediator = mediator
         self.turn = Max
-        self.urlToConfirmMove='http://127.0.0.1:5000/sendBoard'
     def createPlayers(self,Ai1=True,Ai2=True):
         if Ai1:
             self.player1=bp.BotPlayer()
@@ -42,7 +40,6 @@ class Game():
         return moves
             
     def startGame(self):
-        #print(json.dumps({'board': self.board.getBoard()}))
         while(1):
             self.board.printBoardConsole()
             if self.turn==Max:
@@ -52,7 +49,7 @@ class Game():
                 moves=self.__askForPlay(self.player2)
                 self.turn = Max
             print("saliendo del turno")
-            requests.post(self.urlToConfirmMove, json = json.dumps({'moves': moves}))
+            self.mediator.sendConfirmedMoves(moves)
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break

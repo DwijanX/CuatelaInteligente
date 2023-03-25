@@ -14,7 +14,7 @@ lastMoves=[]
 def start_game():
     global gameStart
     print("game started")
-    mediatorGame=mediator.playerWaitingForAnswer()
+    mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
     gameStart.createPlayers(False,False)
     gameStart.startGame()

@@ -7,7 +7,7 @@ class PersonPlayer(player.Player):
         move = self.mediator.playerIsWaiting(self)
         return move
 
-    def __init__(self, type, mediator:mediator.playerWaitingForAnswer) -> None:
+    def __init__(self, type, mediator:mediator.gameMediator) -> None:
         super().__init__(type)
         self.mediator = mediator
         
