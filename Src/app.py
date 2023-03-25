@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,url_for
 
 import json
 import mediator
@@ -49,11 +49,17 @@ def move():
     response = jsonify({'success': True})
     return response
 
+@app.route('/sendBoard', methods=['POST'])
+def confirmMove():
+    board=json.loads(request.get_json())["board"]
+    print("llego",board)
+    return redirect(url_for("index", board=board))
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run()
 
     

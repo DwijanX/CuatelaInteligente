@@ -56,11 +56,9 @@ startButton.addEventListener("click", function() {
 
 squares.forEach(square => {
     square.addEventListener('click', function() {
-
       if (previousSquare !== null) {
         previousSquare.style.backgroundColor = '';
       }
-
       square.style.backgroundColor = 'blue';
   
       const file = square.parentElement;

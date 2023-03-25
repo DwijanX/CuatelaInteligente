@@ -4,7 +4,6 @@ import mediator
 class PersonPlayer(player.Player):
 
     def makePlay(self):
-        self.mediator.playerIsWaiting(self)
         move = self.mediator.playerIsWaiting(self)
         return move
 
