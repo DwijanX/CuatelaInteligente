@@ -11,55 +11,71 @@
     <h1> Programa de Cuatela</h1>
     <h3>Nicolas Cari</h3>
     <h3>Christian Rivero</h3>
+    <div class="container">
     <div class="board">
-        <div class="square">
-          <div class="piece black"></div>
+        <div class="file">
+          <div class="square">
+            <div class="piece black"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece white"></div>
+          </div>
         </div>
-        <div class="square">
-          <div class="piece empty"></div>
+        <div class="file">
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece black"></div>
+          </div>
+          <div class="square">
+            <div class="piece white"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
         </div>
-        <div class="square">
-          <div class="piece empty"></div>
+        <div class="file">
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece white"></div>
+          </div>
+          <div class="square">
+            <div class="piece black"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
         </div>
-        <div class="square">
-          <div class="piece white"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece black"></div>
-        </div>
-        <div class="square">
-          <div class="piece white"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece white"></div>
-        </div>
-        <div class="square">
-          <div class="piece black"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece white"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece empty"></div>
-        </div>
-        <div class="square">
-          <div class="piece black"></div>
+        <div class="file">
+          <div class="square">
+            <div class="piece white"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece empty"></div>
+          </div>
+          <div class="square">
+            <div class="piece black"></div>
+          </div>
         </div>
       </div>
+
+      <button id="startButton" type="button">newGame</button>
+      <div id="selected"></div>
+      <div id="moveTo"></div>
+      
+    </div>
+      <script src="{{ url_for('static', filename='scripts/movement.js') }}"></script>
 </body>
 </html>
