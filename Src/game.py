@@ -54,7 +54,7 @@ class Game():
                 moves=self.__askForPlay(self.player2)
                 self.turn = Max
             print("saliendo del turno")
-            #self.mediator.sendConfirmedMoves(moves)
+            self.mediator.sendConfirmedMoves(moves)
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break
@@ -64,7 +64,7 @@ class Game():
             print("Player 2 won")
 
 #si los descomento se inicializa el juego antes del html por lo que no hay respuesta
-game_mediator = mediator.gameMediator()
-game=Game(game_mediator)
-game.createPlayers(False,True)
-game.startGame()
+#game_mediator = mediator.gameMediator()
+#game=Game(game_mediator)
+#game.createPlayers(False,True)
+#game.startGame()
