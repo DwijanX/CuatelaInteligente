@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1> Programa de Cuatela</h1>
-    <h3>Nicolas Cari</h3>
-    <h3>Christian Rivero</h3>
+    <div class="title">
+      <h1 data-text="Programa_de_Cuatela"> Programa_de_Cuatela</h1>
+      <h3 id="nico" data-text="Nicolas_Cari">Nicolas_Cari</h3>
+      <h3 id="chris" data-text="Christian_Rivero">Christian_Rivero</h3>
+    </div>
     <div class="container">
       <div class="board">
         <div class="file">
@@ -88,11 +90,12 @@
           {% endfor %}
         </div>
         {% endfor %}-->
-        
-      <button id="startButton" type="button">newGame</button>
-      <div id="selected"></div>
-      <div id="moveTo"></div>
-      
+        <div class="containerForText">
+          <button id="startButton" type="button">newGame</button>
+          <div id="selected"></div>
+          <div id="moveTo"></div>
+          <div id="turn">Black Turn</div>
+        </div>
     </div>
       <script src="{{ url_for('static', filename='scripts/movement.js') }}"></script>
 </body>

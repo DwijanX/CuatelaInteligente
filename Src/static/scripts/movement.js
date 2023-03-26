@@ -8,6 +8,7 @@ let movement = 'actual';
 
 let serverOriginCoords
 let serverNextCoords
+let turn = 1
 
 const squares = document.querySelectorAll('.square');
 const startButton = document.querySelector('#startButton');
@@ -90,6 +91,17 @@ function movePiece() {
   console.log(piece2)
 }
 
+function updateTurn() {
+  var turnText = document.getElementById("turn");
+  if(turn == 1){
+    turnText.innerHTML = "Black Turn";
+    turn = 2;
+  }
+  else{
+    turnText.innerHTML = "White Turn";
+    turn = 1;
+  }
+}
 
 async function getMovesFromServer() {
   await sendMoves();
@@ -100,6 +112,7 @@ async function getMovesFromServer() {
   console.log(serverOriginCoords)
   console.log(serverNextCoords)
   movePiece();
+  updateTurn();
 }
 
 
