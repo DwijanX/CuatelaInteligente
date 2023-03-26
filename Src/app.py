@@ -16,7 +16,7 @@ def start_game():
     print("game started")
     mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
-    gameStart.createPlayers(False,True)
+    gameStart.createPlayers(False,False)
     gameStart.startGame()
     return 'Game started'
 
@@ -50,6 +50,7 @@ def move():
     # return moves from python
     response = jsonify({'success': True})
     return response
+
 @app.route('/askForNewMoves', methods=['POST'])
 def askForNewMoves():
     global receivedNewMoves
@@ -74,6 +75,6 @@ def index():
     return render_template('index.html')
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True) #add to debug HTML page easier
 
     
