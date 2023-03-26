@@ -50,6 +50,7 @@ def move():
     # return moves from python
     response = jsonify({'success': True})
     return response
+
 @app.route('/askForNewMoves', methods=['POST'])
 def askForNewMoves():
     global receivedNewMoves
@@ -74,6 +75,7 @@ def index():
     return render_template('index.html')
 
 if __name__=='__main__':
-    app.run()
+    #app.run(debug=True) #add to debug HTML page easier
+    app.run() #debugger doesnt work idkw
 
     
