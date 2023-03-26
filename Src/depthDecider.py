@@ -2,7 +2,7 @@ import playDecider
 import board as bd
 import boardValidator
 import copy
-
+inf=9999999999
 class depthDecider(playDecider.playDecider):
     
     def getBestPlay(self):
@@ -10,7 +10,7 @@ class depthDecider(playDecider.playDecider):
         maxPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MaxPiece)
         minPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MinPiece)
         print(self.player)
-        print("Utility: ", self.depth(self.board,float('-inf'),float('inf'),maxPiecesCoords,minPiecesCoords,0,self.player))
+        print("Utility: ", self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player))
         if self.player==bd.MaxPiece:
             return self.bestMaxMovement
         else:
@@ -20,31 +20,39 @@ class depthDecider(playDecider.playDecider):
     def depth(self,currentBoard:bd.Board,alpha,beta,maxPiecesCoords,minPiecesCoords,depth,player):
         terminalState,utility=self.checkIfSomeoneWonForSpecificBoard(currentBoard)
         newMovement=0
-        if terminalState:
-            print("terminal")
-        if terminalState or depth==5:
+        if terminalState and depth==1:
+            print("terminal1")
+        if terminalState or depth==4:
+            utility=int(utility)
             return utility
         
         if player==bd.MaxPiece: 
-            bestVal = float("-inf")
+            bestVal = -inf
             subBoards=self.getSubBoards(currentBoard,maxPiecesCoords,bd.MaxPiece)
             for subBoard,subCoords,newMovement in subBoards:
                 value=self.depth(subBoard,alpha,beta,subCoords,minPiecesCoords,depth+1,bd.MinPiece)
+                if depth==0 and bestVal<=value:
+                    self.bestMinMovement=newMovement
                 bestVal=max(bestVal,value)
                 alpha=max(alpha,bestVal)
-                if beta<=bestVal:
+                if bestVal >= beta and bestVal!=-inf:
                     break
-            self.bestMaxMovement=newMovement
+            if bestVal==-inf:
+                return inf
             return bestVal
         else:
-            bestVal = float("inf")
-            for subBoard,subCoords,newMovement in self.getSubBoards(currentBoard,minPiecesCoords,bd.MinPiece):
+            bestVal = inf
+            subBoards=self.getSubBoards(currentBoard,minPiecesCoords,bd.MinPiece)
+            for subBoard,subCoords,newMovement in subBoards:
                 value=self.depth(subBoard,alpha,beta,maxPiecesCoords,subCoords,depth+1,bd.MaxPiece)
+                if depth==0 and bestVal>=value:
+                    self.bestMinMovement=newMovement
                 bestVal=min(bestVal,value)
                 beta=min(beta,bestVal)
-                if bestVal<=alpha:
+                if bestVal<=alpha and bestVal!=inf :
                     break
-            self.bestMinMovement=newMovement
+            if bestVal==inf :
+                return -inf
             return bestVal
     def getSubBoards(self,board,coords,player):
         tablesAndCoords=[]
@@ -57,11 +65,11 @@ class depthDecider(playDecider.playDecider):
                         self.boardValidator.validatePlayForSpecificBoard(player,coords[indexPiece],nextCoord,board)
                         newBoard:bd.Board=copy.deepcopy(board)
                         newBoard.movePiece(currentCoord,nextCoord)
-                        hashBoard=newBoard.getHash()
-                        if hashBoard not in self.visitedBoards:
-                            self.visitedBoards.add(hashBoard)
-                        else:
-                            raise Exception("Already added board")
+                        #hashBoard=newBoard.getHash()
+                        #if hashBoard not in self.visitedBoards:
+                        #    self.visitedBoards.add(hashBoard)
+                        #else:
+                        #    raise Exception("Already added board")
                         newCoords=copy.deepcopy(coords)
                         newCoords[indexPiece]=nextCoord
                         movement=(currentCoord,nextCoord)

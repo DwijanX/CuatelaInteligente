@@ -16,7 +16,7 @@ def start_game():
     print("game started")
     mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
-    gameStart.createPlayers(False,False)
+    gameStart.createPlayers(False,True)
     gameStart.startGame()
     return 'Game started'
 
@@ -75,6 +75,7 @@ def index():
     return render_template('index.html')
 
 if __name__=='__main__':
-    app.run(debug=True) #add to debug HTML page easier
+    #app.run(debug=True) #add to debug HTML page easier
+    app.run() #debugger doesnt work idkw
 
     

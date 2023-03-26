@@ -25,55 +25,64 @@ class playDecider():
         winCond4,utilityAns4=self.__checkFourthWinCond(Coords,dim)
         won=winCond1 or winCond2 or winCond3 or winCond4
         Utility=utilityAns1+utilityAns2+utilityAns3+utilityAns4
+        #Utility=max(utilityAns1,utilityAns2,utilityAns3,utilityAns4)*4
         return won,Utility
     def __getDistance(self,coord1,coord2):
         return max(abs(coord1[0]-coord2[0]),abs(coord1[1]-coord2[1]))
     def __checkFirstWinCond(self,playerCoords, dim):
         utility=0
         won=True
+        coincidences=0
         for playerCoord in playerCoords:
             if playerCoord[0]==0 and (playerCoord[1]==0 or playerCoord[1]==dim-1) or playerCoord[0]==dim-1 and (playerCoord[1]==0 or playerCoord[1]==dim-1):
-                utility+=1
+                utility+=1*coincidences
+                coincidences+=1
             else:
                 won=False
         if won:
-            utility+=10
+            utility+=100
         return won,utility
     def __checkSecondWinCond(self,playerCoords, dim):
         utility=0
         won=True
         arrayOrder=[(0,1),(0,2),(0,3),(1,2),(1,3),(2,3)]
+        counter=0
         for first,second in arrayOrder:
             if self.__getDistance(playerCoords[first],playerCoords[second])!=1:
                 won=False
             else:
-                utility+=1
+                utility+=1+counter
+                counter+=10
         if won:
-            utility+=10
+            utility+=100
         return won,utility
     def __checkThirdWinCond(self,playerCoords, dim): ##aligned in rows
         utility=0
         won=True
+        counter=0
         for i in range(dim):
             if i+1==dim:
                 break
             if playerCoords[i][0]!=playerCoords[i+1][0] or playerCoords[i][1]+1!=playerCoords[i+1][1]:
                 won=False
             else:
-                utility+=1
+                utility+=i+counter
+                counter+=10
         if won:
-            utility+=10
+            utility+=100
         return won,utility
     def __checkFourthWinCond(self,playerCoords, dim): ##aligned in columns
         utility=0
         won=True
+        counter=0
         for i in range(dim):
             if i+1==dim:
                 break
             if playerCoords[i][0]+1!=playerCoords[i+1][0] or playerCoords[i][1]!=playerCoords[i+1][1]:
                 won=False
             else:
-                utility+=1
+                utility+=1+counter
+                counter+=10
         if won:
-            utility+=10
+            utility+=100
         return won,utility
