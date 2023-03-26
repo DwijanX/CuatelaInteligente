@@ -18,10 +18,17 @@ class Board:
         return self.board
     def getDim(self):
         return self.dim
+    def getHash(self):
+        hash=""
+        for r in range(self.dim):
+            for c in range(self.dim):
+                hash+=str(self.board[r][c])
+        return hash
+    
     def movePiece(self,startCoords,nextCoords):
         self.board[nextCoords[0]][nextCoords[1]]=self.board[startCoords[0]][startCoords[1]]
         self.board[startCoords[0]][startCoords[1]]=EmptyCell
-        print("Moved")
+
     def getPieceInCoords(self,coords):
         return self.board[coords[0]][coords[1]]
     def printBoardConsole(self):
