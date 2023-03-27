@@ -78,15 +78,13 @@ function sendMoves(){
 function movePiece() {
   var originCoords = [serverOriginCoords[1], serverOriginCoords[0]]; //server gives YX values
   var nextCoords = [serverNextCoords[1], serverNextCoords[0]]; //server gives YX values
-  var piece1 = document.querySelector('[data-position="' + originCoords[0] + '-' + originCoords[1] + '"]');
-  var piece2 = document.querySelector('[data-position="' + nextCoords[0] + '-' + nextCoords[1] + '"]');
-  console.log(piece1)
-  console.log(piece2)
-  piece1.setAttribute('data-position', nextCoords[0] + '-' + nextCoords[1]);
-  piece2.setAttribute('data-position', originCoords[0] + '-' + originCoords[1]);
-  var temp = piece1.innerHTML;
-  piece1.innerHTML = piece2.innerHTML;
-  piece2.innerHTML = temp;
+  var originPiece = document.querySelector('[data-position="' + originCoords[0] + '-' + originCoords[1] + '"]');
+  var NextPiece = document.querySelector('[data-position="' + nextCoords[0] + '-' + nextCoords[1] + '"]');
+  console.log(originPiece)
+  console.log(NextPiece)
+  var temp = originPiece.innerHTML;
+  originPiece.innerHTML = NextPiece.innerHTML;
+  NextPiece.innerHTML = temp;
   console.log(piece1)
   console.log(piece2)
 }
