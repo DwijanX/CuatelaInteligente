@@ -2,8 +2,12 @@ import playDecider
 import board as bd
 import boardValidator
 import copy
+import board
 inf=9999999999
 class depthDecider(playDecider.playDecider):
+    def __init__(self, player, Board: board.Board, boardValidator: boardValidator.boardValidator,maxDepth):
+        super().__init__(player, Board, boardValidator)
+        self.maxDepth=maxDepth
     
     def getBestPlay(self):
         self.visitedBoards=set()
@@ -22,7 +26,7 @@ class depthDecider(playDecider.playDecider):
         newMovement=0
         if terminalState and depth==1:
             print("terminal1")
-        if terminalState or depth==4:
+        if terminalState or depth==self.maxDepth:
             utility=int(utility)
             return utility
         
@@ -32,7 +36,7 @@ class depthDecider(playDecider.playDecider):
             for subBoard,subCoords,newMovement in subBoards:
                 value=self.depth(subBoard,alpha,beta,subCoords,minPiecesCoords,depth+1,bd.MinPiece)
                 if depth==0 and bestVal<=value:
-                    self.bestMinMovement=newMovement
+                    self.bestMaxMovement=newMovement
                 bestVal=max(bestVal,value)
                 alpha=max(alpha,bestVal)
                 if bestVal >= beta and bestVal!=-inf:

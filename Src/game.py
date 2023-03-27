@@ -19,12 +19,12 @@ class Game():
         self.turn = Max
     def createPlayers(self,Ai1=True,Ai2=True):
         if Ai1:
-            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator)
+            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,1)
             self.player1=bp.BotPlayer(Max,decider)
         else:
             self.player1=pp.PersonPlayer(Max, self.mediator)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,3)
             self.player2=bp.BotPlayer(Min,decider)
         else:
             self.player2=pp.PersonPlayer(Min, self.mediator)
