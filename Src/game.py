@@ -58,6 +58,7 @@ class Game():
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break
+        self.mediator.notifyGameOver()
         if(winCheckVar==bv.MaxWon):
             print("Player 1 won")
         else:

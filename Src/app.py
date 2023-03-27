@@ -7,8 +7,8 @@ import time
 
 app=Flask(__name__)
 gameStart = None
-receivedNewMoves=False
-lastMoves=[]
+receivedNewInstructions=False
+instructionsData=[]
 #creates game.py environment after html was created
 @app.route('/start_game')
 def start_game():
@@ -50,7 +50,7 @@ def move():
     # return moves from python
     response = jsonify({'success': True})
     return response
-
+"""
 @app.route('/askForNewMoves', methods=['POST'])
 def askForNewMoves():
     global receivedNewMoves
@@ -60,14 +60,24 @@ def askForNewMoves():
         time.sleep(0.1)
     receivedNewMoves=False
     print("Ready to send")
-    return json.dumps(lastMoves)
+    return json.dumps(lastMoves)"""
+@app.route('/listenForInstructions', methods=['POST'])
+def askForNewMoves():
+    global receivedNewInstructions
+    global instructionsData
+    print("asked")
+    while receivedNewInstructions==False:
+        time.sleep(0.1)
+    receivedNewInstructions=False
+    return json.dumps(instructionsData)
 
-@app.route('/sendBoard', methods=['POST'])
+@app.route('/giveInstructions', methods=['POST'])
 def confirmMove():
-    global receivedNewMoves
-    global lastMoves
-    lastMoves=json.loads(request.get_json())["moves"]
-    receivedNewMoves=True
+    global receivedNewInstructions
+    global instructionsData
+    instructionsData=json.loads(request.get_json())
+    receivedNewInstructions=True
+    print("instructions given")
     return "OK"
 
 @app.route('/')

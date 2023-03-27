@@ -14,6 +14,7 @@ class PersonPlayer(player.Player):
         y2=int(input("which Y coord is the objective"))
         return ((x1,y1),(x2,y2))
         '''#utilizado en front
+        self.mediator.askForPlayerMoves()
         move = self.mediator.playerIsWaiting(self)
         return move
 

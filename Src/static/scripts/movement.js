@@ -1,3 +1,4 @@
+
 const columnLetters = ['A', 'B', 'C', 'D'];
 
 let previousSquare = null;
@@ -13,11 +14,12 @@ let turn = 1
 const squares = document.querySelectorAll('.square');
 const startButton = document.querySelector('#startButton');
 
-function startGame(){
+async function startGame(){
     console.log("inicializando");
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/start_game');
     xhr.send();
+    await listener()
 }
 
 
@@ -29,23 +31,15 @@ function squareToMoveInString(fileIndex,rowIndex) {
     }
   }
 
-function updateBoard(Coords)
+function setReceivedCoords(Coords)
 {
   console.log("coordenadas recibidas:")
   console.log(Coords)
   serverOriginCoords=Coords[0]
   serverNextCoords=Coords[1]
 }
-  async function receiveMoves()
-  {
-    await fetch('http://127.0.0.1:5000/askForNewMoves', {
-      method: 'POST'
-    })
-    .then((response) => response.json()) 
-    .then((data) => {
-      updateBoard(data)
-    });
-  }
+
+
 
 function sendMoves(){
     if (selectedSquare != null && squareToMove != null) {
@@ -53,6 +47,7 @@ function sendMoves(){
             'startCoords': selectedSquare,
             'nextCoords': squareToMove
         };
+        console.log("moves to send",moves)
 
         return new Promise((resolve, reject) => {
           var xhr = new XMLHttpRequest();
@@ -69,6 +64,7 @@ function sendMoves(){
               }
             }
           };
+          console.log("ready to send moves");
           xhr.send(JSON.stringify(moves));
           
         });
@@ -85,19 +81,17 @@ function movePiece() {
   var temp = originPiece.innerHTML;
   originPiece.innerHTML = NextPiece.innerHTML;
   NextPiece.innerHTML = temp;
-  console.log(piece1)
-  console.log(piece2)
 }
 
 function updateTurn() {
   var turnText = document.getElementById("turn");
   if(turn == 1){
-    turnText.innerHTML = "Black Turn";
+    turnText.innerHTML = "White Turn";
     turn = 2;
   }
   else{
-    turnText.innerHTML = "White Turn";
-    turn = 1;
+    turnText.innerHTML = "Black Turn";
+    turn = 2;
   }
 }
 
@@ -113,7 +107,77 @@ async function getMovesFromServer() {
   updateTurn();
 }
 
+async function listener()
+{
+  let data
+  let GameOver=false
+  while (GameOver) {
+    await fetch('http://127.0.0.1:5000/listenForInstructions', {
+        method: 'POST'
+      })
+      .then((response) => response.json()) 
+      .then((data) => {
+        data=data
+      });
+    if (data["ans"]=="UpdatePiece"){
+      setReceivedCoords(data["coords"]);
+      movePiece();
+      updateTurn();
+    }
+    if (data["ans"]=="SendMoves"){
+      //should unlock buttons to select piece, otherwise they'd be locked
+      //could show a message asking the user to select move
+      alert("Select your move")
+      await sendMoves()
+    }
+    if(data["ans"]=="GameOver")
+    {
+      GameOver=true
+      alert("GameOver")
+    }
+    turn = 1;
+  }
+}
 
+
+
+async function listener()
+{
+  let receivedData
+  let GameOver=false
+  console.log("entered Listener")
+  while (GameOver==false) {
+    await fetch('http://127.0.0.1:5000/listenForInstructions', {
+        method: 'POST'
+      })
+      .then((response) => response.json()) 
+      .then((data) => {
+        console.log(data)
+        receivedData=data
+      });
+    console.log("passed request")
+    if (receivedData["ans"]=="UpdatePiece"){
+      selectedSquare = null;
+      squareToMove = null;
+      setReceivedCoords(receivedData["coords"]);
+      movePiece();
+      updateTurn();
+    }
+    if (receivedData["ans"]=="SendMoves"){
+      //could show a message asking the user to select move
+      alert("Select your move")
+      //should unlock buttons to select piece, otherwise they ought to be locked
+      
+    }
+    if(receivedData["ans"]=="GameOver")
+    {
+      GameOver=true
+      alert("GameOver")
+    }
+    console.log("waiting");
+  }
+  
+}
 
 
 startButton.addEventListener("click", function() {
@@ -144,7 +208,7 @@ squares.forEach(square => {
         moveTo.innerHTML = `wishes square: ${columnLetters[fileIndex - 1]}${rowIndex}`;
         movement = 'actual'
         squareToMoveInString(fileIndex, rowIndex);
-        getMovesFromServer();
+        sendMoves()
     }
     previousSquare = square;
     console.log(square)
