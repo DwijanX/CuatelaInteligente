@@ -8,6 +8,8 @@ class depthDecider(playDecider.playDecider):
     def __init__(self, player, Board: board.Board, boardValidator: boardValidator.boardValidator,maxDepth):
         super().__init__(player, Board, boardValidator)
         self.maxDepth=maxDepth
+        self.maxMoves = []
+        self.minMoves = []
     
     def getBestPlay(self):
         self.visitedBoards=set()
@@ -16,8 +18,18 @@ class depthDecider(playDecider.playDecider):
         print(self.player)
         print("Utility: ", self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player))
         if self.player==bd.MaxPiece:
+            self.maxMoves.append(self.bestMaxMovement)
+            if(len(self.maxMoves)>= 8):
+                if(all(self.maxMoves[index] == self.maxMoves[0] for index in range(0,len(self.maxMoves), 2))):
+                    self.maxDepth = self.maxDepth - 1
+                self.maxMoves = []    
             return self.bestMaxMovement
         else:
+            self.minMoves.append(self.bestMinMovement)
+            if(len(self.minMoves)>= 4):
+                if(all(self.minMoves[index] == self.minMoves[0] for index in range(0,len(self.minMoves), 2))):
+                    self.maxDepth = self.maxDepth - 1
+                self.minMoves = []    
             return self.bestMinMovement
 
     
@@ -26,9 +38,9 @@ class depthDecider(playDecider.playDecider):
         newMovement=0
         if terminalState or depth==self.maxDepth:
             if utility>0:
-                utility+=(self.maxDepth-depth)*10
+                utility+=(self.maxDepth-depth)*100
             else:
-                utility-=(self.maxDepth-depth)*10
+                utility-=(self.maxDepth-depth)*100
             utility=int(utility)
             return utility
         

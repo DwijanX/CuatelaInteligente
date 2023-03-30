@@ -37,6 +37,8 @@ class boardValidator:
                     break
                 if board.getPieceInCoords(mediumCoords)==bd.EmptyCell:
                     raise Exception(PathSelectedIsNotTheMax)
+                else:
+                    break
 
     def validatePlayForSpecificBoard(self,typeOfPlayer,startCoords,nextCoords,SpecificBoard:bd.Board):
         dim=SpecificBoard.getDim()
