@@ -11,6 +11,14 @@ class depthDecider(playDecider.playDecider):
         self.maxMoves = []
         self.minMoves = []
     
+    def superSaiyayin(self, moves, movementArray):
+        movementArray.append(moves)
+        if(len(movementArray)>= 8):
+            if(all(movementArray[index] == movementArray[0] for index in range(0,len(movementArray), 2))):
+                print("saiyayin mode activated")
+                self.maxDepth -= 1
+            movementArray = []    
+
     def getBestPlay(self):
         self.visitedBoards=set()
         maxPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MaxPiece)
@@ -18,18 +26,11 @@ class depthDecider(playDecider.playDecider):
         print(self.player)
         print("Utility: ", self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player))
         if self.player==bd.MaxPiece:
-            self.maxMoves.append(self.bestMaxMovement)
-            if(len(self.maxMoves)>= 8):
-                if(all(self.maxMoves[index] == self.maxMoves[0] for index in range(0,len(self.maxMoves), 2))):
-                    self.maxDepth = self.maxDepth - 1
-                self.maxMoves = []    
+            self.superSaiyayin(self.bestMaxMovement,self.maxMoves)
             return self.bestMaxMovement
+
         else:
-            self.minMoves.append(self.bestMinMovement)
-            if(len(self.minMoves)>= 4):
-                if(all(self.minMoves[index] == self.minMoves[0] for index in range(0,len(self.minMoves), 2))):
-                    self.maxDepth = self.maxDepth - 1
-                self.minMoves = []    
+            self.superSaiyayin(self.bestMinMovement,self.minMoves)  
             return self.bestMinMovement
 
     
