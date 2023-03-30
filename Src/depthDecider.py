@@ -24,9 +24,11 @@ class depthDecider(playDecider.playDecider):
     def depth(self,currentBoard:bd.Board,alpha,beta,maxPiecesCoords,minPiecesCoords,depth,player):
         terminalState,utility=self.checkIfSomeoneWonForSpecificBoard(currentBoard)
         newMovement=0
-        if terminalState and depth==1:
-            print("terminal1")
         if terminalState or depth==self.maxDepth:
+            if utility>0:
+                utility+=(self.maxDepth-depth)*10
+            else:
+                utility-=(self.maxDepth-depth)*10
             utility=int(utility)
             return utility
         
@@ -41,8 +43,6 @@ class depthDecider(playDecider.playDecider):
                 alpha=max(alpha,bestVal)
                 if bestVal >= beta and bestVal!=-inf:
                     break
-            if bestVal==-inf:
-                return inf
             return bestVal
         else:
             bestVal = inf
@@ -55,29 +55,23 @@ class depthDecider(playDecider.playDecider):
                 beta=min(beta,bestVal)
                 if bestVal<=alpha and bestVal!=inf :
                     break
-            if bestVal==inf :
-                return -inf
             return bestVal
     def getSubBoards(self,board,coords,player):
         tablesAndCoords=[]
         for indexPiece in range(len(coords)):
             currentCoord=coords[indexPiece]
             for movementDirection in self.availableMovements:  
-                for lengthMovement in range(1,4):
+                for lengthMovement in range(3,0,-1):
                     try:
                         nextCoord=(currentCoord[0]+(movementDirection[0]*lengthMovement),currentCoord[1]+(movementDirection[1]*lengthMovement))
                         self.boardValidator.validatePlayForSpecificBoard(player,coords[indexPiece],nextCoord,board)
                         newBoard:bd.Board=copy.deepcopy(board)
                         newBoard.movePiece(currentCoord,nextCoord)
-                        #hashBoard=newBoard.getHash()
-                        #if hashBoard not in self.visitedBoards:
-                        #    self.visitedBoards.add(hashBoard)
-                        #else:
-                        #    raise Exception("Already added board")
                         newCoords=copy.deepcopy(coords)
                         newCoords[indexPiece]=nextCoord
                         movement=(currentCoord,nextCoord)
                         tablesAndCoords.append((newBoard,newCoords,movement))
+                        lengthMovement=0
                     except Exception as e:
                         pass
         return tablesAndCoords

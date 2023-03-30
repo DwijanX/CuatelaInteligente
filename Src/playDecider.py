@@ -40,7 +40,7 @@ class playDecider():
             else:
                 won=False
         if won:
-            utility+=100
+            utility=utility*2
         return won,utility
     def __checkSecondWinCond(self,playerCoords, dim):
         utility=0
@@ -54,7 +54,7 @@ class playDecider():
                 utility+=1+counter
                 counter+=10
         if won:
-            utility+=100
+            utility=utility*2
         return won,utility
     def __checkThirdWinCond(self,playerCoords, dim): ##aligned in rows
         utility=0
@@ -69,7 +69,7 @@ class playDecider():
                 utility+=i+counter
                 counter+=10
         if won:
-            utility+=100
+            utility=utility*2
         return won,utility
     def __checkFourthWinCond(self,playerCoords, dim): ##aligned in columns
         utility=0
@@ -84,5 +84,5 @@ class playDecider():
                 utility+=1+counter
                 counter+=10
         if won:
-            utility+=100
+            utility=utility*2
         return won,utility

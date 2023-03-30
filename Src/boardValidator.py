@@ -1,58 +1,56 @@
-import board
+import board as bd
 import copy
 invalidPlayer="Invalid Player"
 cellIsUnavailable="Cell Is Unavailable"
 selectedCellIsTooFar="selected Cell Is Too Far"
 OutOfBoundaries="Out of Boundaries"
+UnavailablePath="Unavailable Path"
+PathSelectedIsNotTheMax="Path Selected Is Not The Max"
 noOneWon="NoWon"
 MaxWon="MaxWon"
 MinWon="MinWon"
 
 class boardValidator:
-    def __init__(self,board:board.Board) -> None:
+    def __init__(self,board:bd.Board) -> None:
         self.board=board
         self.availableMovements=[(0,-1),(0,1),(1,0),(-1,0),(1,-1),(-1,-1),(-1,1),(1,1)]
 
     def validatePlay(self,typeOfPlayer,startCoords,nextCoords):
-        dim=self.board.getDim()
-        if(nextCoords[0]<0 or nextCoords[0]>=dim or nextCoords[1]<0 or nextCoords[1]>=dim):
-            raise Exception(OutOfBoundaries)
-        typeOfPiece=self.board.getPieceInCoords(startCoords)
-        nextCell=self.board.getPieceInCoords(nextCoords)
-        if typeOfPlayer!=typeOfPiece:
-            raise Exception(invalidPlayer)
-        if nextCell!=board.EmptyCell:
-            raise Exception(cellIsUnavailable)
+        return self.validatePlayForSpecificBoard(typeOfPlayer,startCoords,nextCoords,self.board)
+    def __validateIfCoordIsOutOfBoundaries(self,nextCoords,dim):
+        return nextCoords[0]<0 or nextCoords[0]>=dim or nextCoords[1]<0 or nextCoords[1]>=dim
+    
+    def __verifyIfPathIsValid(self,board,startCoords,nextCoords,dim):
         xDir,yDir=nextCoords[0]-startCoords[0],nextCoords[1]-startCoords[1]
-        
-        for i in range(1,max(abs(xDir),abs(yDir))+1):
-            mediumCoords=[startCoords[0],startCoords[1]]
+        CellsToMove=max(abs(xDir),abs(yDir))
+        mediumCoords=[startCoords[0],startCoords[1]]
+        for i in range(1,4):
             if abs(xDir)>0:
-                mediumCoords[0]=int(mediumCoords[0]+(xDir/abs(xDir))*i)
+                mediumCoords[0]=int(mediumCoords[0]+(xDir/abs(xDir)))
             if abs(yDir)>0:
-                mediumCoords[1]=int(mediumCoords[1]+(yDir/abs(yDir))*i)
-            if self.board.getPieceInCoords(mediumCoords)!=board.EmptyCell:
-                raise Exception("UnavailablePath")
-        return True
-    def validatePlayForSpecificBoard(self,typeOfPlayer,startCoords,nextCoords,SpecificBoard:board.Board):
+                mediumCoords[1]=int(mediumCoords[1]+(yDir/abs(yDir)))
+            if i< CellsToMove:
+                if board.getPieceInCoords(mediumCoords)!=bd.EmptyCell:
+                    raise Exception(UnavailablePath)
+            elif i>CellsToMove:
+                if self.__validateIfCoordIsOutOfBoundaries(mediumCoords,dim):
+                    break
+                if board.getPieceInCoords(mediumCoords)==bd.EmptyCell:
+                    raise Exception(PathSelectedIsNotTheMax)
+
+    def validatePlayForSpecificBoard(self,typeOfPlayer,startCoords,nextCoords,SpecificBoard:bd.Board):
         dim=SpecificBoard.getDim()
-        if(nextCoords[0]<0 or nextCoords[0]>=dim or nextCoords[1]<0 or nextCoords[1]>=dim):
+        if(self.__validateIfCoordIsOutOfBoundaries(startCoords,dim)):
+            raise Exception(OutOfBoundaries)
+        if(self.__validateIfCoordIsOutOfBoundaries(nextCoords,dim)):
             raise Exception(OutOfBoundaries)
         typeOfPiece=SpecificBoard.getPieceInCoords(startCoords)
         nextCell=SpecificBoard.getPieceInCoords(nextCoords)
         if typeOfPlayer!=typeOfPiece:
             raise Exception(invalidPlayer)
-        if nextCell!=board.EmptyCell:
+        if nextCell!=bd.EmptyCell:
             raise Exception(cellIsUnavailable)
-        xDir,yDir=nextCoords[0]-startCoords[0],nextCoords[1]-startCoords[1]
-        for i in range(1,max(abs(xDir),abs(yDir))+1):
-            mediumCoords=[startCoords[0],startCoords[1]]
-            if abs(xDir)>0:
-                mediumCoords[0]=int(mediumCoords[0]+(xDir/abs(xDir))*i)
-            if abs(yDir)>0:
-                mediumCoords[1]=int(mediumCoords[1]+(yDir/abs(yDir))*i)
-            if SpecificBoard.getPieceInCoords(mediumCoords)!=board.EmptyCell:
-                raise Exception("UnavailablePath")
+        self.__verifyIfPathIsValid(SpecificBoard,startCoords,nextCoords,dim)
         return True
         
     def checkProcesss(self,player,dim):
@@ -68,9 +66,9 @@ class boardValidator:
         return False
     def checkIfSomeoneWon(self):
         dim=self.board.getDim()
-        if self.checkProcesss(board.MaxPiece,dim):
+        if self.checkProcesss(bd.MaxPiece,dim):
             return MaxWon
-        if self.checkProcesss(board.MinPiece,dim):
+        if self.checkProcesss(bd.MinPiece,dim):
             return MinWon
         return noOneWon
     

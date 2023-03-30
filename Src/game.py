@@ -9,6 +9,7 @@ import playDecider
 import alphaBetaDecider
 import depthDecider
 
+useUI=True
 Max=1
 Min=2
 class Game():
@@ -19,15 +20,15 @@ class Game():
         self.turn = Max
     def createPlayers(self,Ai1=True,Ai2=True):
         if Ai1:
-            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,1)
+            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,6)
             self.player1=bp.BotPlayer(Max,decider)
         else:
-            self.player1=pp.PersonPlayer(Max, self.mediator)
+            self.player1=pp.PersonPlayer(Max, self.mediator,useUI)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,3)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2)
             self.player2=bp.BotPlayer(Min,decider)
         else:
-            self.player2=pp.PersonPlayer(Min, self.mediator)
+            self.player2=pp.PersonPlayer(Min, self.mediator,useUI)
     def __askForPlay(self,player:player.Player):
         while(1):
             moves = player.makePlay()
@@ -65,9 +66,10 @@ class Game():
             print("Player 2 won")
 
 #si los descomento se inicializa el juego antes del html por lo que no hay respuesta
-'''
+"""
+useUI=False
 game_mediator = mediator.gameMediator()
 game=Game(game_mediator)
 game.createPlayers(False,True)
-game.startGame()
-'''
+game.startGame()"""
+
