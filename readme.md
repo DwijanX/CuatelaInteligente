@@ -36,7 +36,7 @@ We concluded that while the two heuristics perform similarly, heuristic 1 is gen
 
 We ran the + α − β pruning algorithm using the same depth to find the best order of actions that results in the highest number of prunings. Initially, we manually changed the order of actions, but then we decided to use a randomizer to change the order of moves randomly each time. By doing this, we obtained the following graphs.
 
-![alt text](images/prunnings%20using%20same%20depth.png. "prunnings using same depth")
+![alt text](images/prunnings%20using%20same%20depth.png "prunnings using same depth")
 
 ![alt text](images/terminal%20boards%20using%20same%20depth.png "terminal boards using same depth")
 
