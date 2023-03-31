@@ -6,7 +6,13 @@ class playDecider():
         self.player=player
         self.boardValidator=boardValidator
         self.visitedBoards=set()
-        self.availableMovements=[(0,-1),(0,1),(1,0),(-1,0),(1,-1),(-1,-1),(-1,1),(1,1)]
+        self.prunings=0
+        #self.availableMovements=[(0,-1),(0,1),(1,0),(-1,0),(1,-1),(-1,-1),(-1,1),(1,1)]
+        #self.availableMovements=[(1,-1),(-1,-1),(-1,1),(1,1),(0,-1),(0,1),(1,0),(-1,0)]
+        #self.availableMovements=[(-1,-1),(-1,1),(1,-1),(1,1),(0,1),(-1,0),(0,-1),(1,0)]
+        #NW,SW,NE,SE,S,W,N,E
+        #self.availableMovements=[(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, -1), (-1, 1), (1, 1)]
+        self.availableMovements= [(1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
     def getBestPlay(self):
         pass
     def checkIfSomeoneWonForSpecificBoard(self,Board:board.Board):
@@ -25,7 +31,9 @@ class playDecider():
         winCond4,utilityAns4=self.__checkFourthWinCond(Coords,dim)
         won=winCond1 or winCond2 or winCond3 or winCond4
         Utility=utilityAns1+utilityAns2+utilityAns3+utilityAns4
-        #Utility=max(utilityAns1,utilityAns2,utilityAns3,utilityAns4)*4
+        #Utility=max(utilityAns1,utilityAns2,utilityAns3,utilityAns4)
+        if won:
+            Utility=Utility*20
         return won,Utility
     def __getDistance(self,coord1,coord2):
         return max(abs(coord1[0]-coord2[0]),abs(coord1[1]-coord2[1]))
@@ -39,8 +47,6 @@ class playDecider():
                 coincidences+=1
             else:
                 won=False
-        if won:
-            utility=utility*2
         return won,utility
     def __checkSecondWinCond(self,playerCoords, dim):
         utility=0
@@ -53,8 +59,6 @@ class playDecider():
             else:
                 utility+=1+counter
                 counter+=10
-        if won:
-            utility=utility*2
         return won,utility
     def __checkThirdWinCond(self,playerCoords, dim): ##aligned in rows
         utility=0
@@ -68,8 +72,6 @@ class playDecider():
             else:
                 utility+=i+counter
                 counter+=10
-        if won:
-            utility=utility*2
         return won,utility
     def __checkFourthWinCond(self,playerCoords, dim): ##aligned in columns
         utility=0
@@ -83,6 +85,4 @@ class playDecider():
             else:
                 utility+=1+counter
                 counter+=10
-        if won:
-            utility=utility*2
         return won,utility

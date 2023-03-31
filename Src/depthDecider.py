@@ -3,29 +3,35 @@ import board as bd
 import boardValidator
 import copy
 import board
+from collections import deque
 inf=9999999999
 class depthDecider(playDecider.playDecider):
     def __init__(self, player, Board: board.Board, boardValidator: boardValidator.boardValidator,maxDepth):
         super().__init__(player, Board, boardValidator)
         self.maxDepth=maxDepth
-        self.maxMoves = []
-        self.minMoves = []
+        self.maxMoves = deque()
+        self.minMoves = deque()
     
-    def superSaiyayin(self, moves, movementArray):
+    def superSaiyayin(self, moves, movementArray:deque):
+        print(id(movementArray))
         movementArray.append(moves)
-        if(len(movementArray)>= 8):
-            if(all(movementArray[index] == movementArray[0] for index in range(0,len(movementArray), 2))):
-                print("saiyayin mode activated")
+        if(len(movementArray)> 8):
+            movementArray.popleft()
+            if(self.maxDepth>1 and all(movementArray[index] == movementArray[0] for index in range(0,len(movementArray), 2))):
+                print("Lowered Max depth")
                 self.maxDepth -= 1
-            movementArray = []    
 
     def getBestPlay(self):
         self.visitedBoards=set()
         maxPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MaxPiece)
         minPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MinPiece)
         print(self.player)
-        print("Utility: ", self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player))
+        utility=self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player)
+        print("Utility: ", utility)
+        if utility==inf or utility==-inf:
+            print("hmmm")
         if self.player==bd.MaxPiece:
+            print(id(self.maxMoves))
             self.superSaiyayin(self.bestMaxMovement,self.maxMoves)
             return self.bestMaxMovement
 
@@ -80,6 +86,11 @@ class depthDecider(playDecider.playDecider):
                         self.boardValidator.validatePlayForSpecificBoard(player,coords[indexPiece],nextCoord,board)
                         newBoard:bd.Board=copy.deepcopy(board)
                         newBoard.movePiece(currentCoord,nextCoord)
+                        """hashBoard=newBoard.getHash()
+                        if hashBoard not in self.visitedBoards:
+                            self.visitedBoards.add(hashBoard)
+                        else:
+                            raise Exception("Already added board")"""
                         newCoords=copy.deepcopy(coords)
                         newCoords[indexPiece]=nextCoord
                         movement=(currentCoord,nextCoord)
