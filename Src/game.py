@@ -57,21 +57,21 @@ class Game():
                 moves=self.__askForPlay(self.player2)
                 self.turn = Max
             print("saliendo del turno")
-            self.mediator.sendConfirmedMoves(moves) #utilizar para front, quitar para probar back
+            #self.mediator.sendConfirmedMoves(moves) #utilizar para front, quitar para probar back
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break
-        self.mediator.notifyGameOver()
+        #self.mediator.notifyGameOver()
         if(winCheckVar==bv.MaxWon):
             print("Player 1 won")
         else:
             print("Player 2 won")
 
 #si los descomento se inicializa el juego antes del html por lo que no hay respuesta
-"""
+
 useUI=False
 game_mediator = mediator.gameMediator()
 game=Game(game_mediator)
-game.createPlayers(False,True)
-game.startGame()"""
+game.createPlayers(True,True)
+game.startGame()
 

@@ -16,7 +16,7 @@ def start_game():
     print("game started")
     mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
-    gameStart.createPlayers(True,True)
+    gameStart.createPlayers(True,False)
     gameStart.startGame()
     return 'Game started'
 

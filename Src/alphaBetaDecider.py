@@ -78,7 +78,7 @@ class alphaBetaDecider(playDecider.playDecider):
         AnswerObject["depthReached"]=depth
         AnswerObject["time"]=timeTook
         print(AnswerObject)
-        file_name = 'Run7AlphaBeta.pickle'
+        file_name = 'Run8AlphaBeta.pickle'
         with open(file_name, 'wb') as file:
             pickle.dump(AnswerObject, file)
             print(f'Object successfully saved to "{file_name}"')

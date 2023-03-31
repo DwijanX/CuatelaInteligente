@@ -28,7 +28,9 @@ class Board:
     def movePiece(self,startCoords,nextCoords):
         self.board[nextCoords[0]][nextCoords[1]]=self.board[startCoords[0]][startCoords[1]]
         self.board[startCoords[0]][startCoords[1]]=EmptyCell
-
+    def undomovePiece(self,startCoords,nextCoords):
+        self.board[startCoords[0]][startCoords[1]]=self.board[nextCoords[0]][nextCoords[1]]
+        self.board[nextCoords[0]][nextCoords[1]]=EmptyCell
     def getPieceInCoords(self,coords):
         return self.board[coords[0]][coords[1]]
     def printBoardConsole(self):
