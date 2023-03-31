@@ -3,6 +3,7 @@ import board as bd
 import boardValidator
 import copy
 import board
+import random
 from collections import deque
 inf=9999999999
 class depthDecider(playDecider.playDecider):
@@ -31,15 +32,14 @@ class depthDecider(playDecider.playDecider):
         if utility==inf or utility==-inf:
             print("hmmm")
         if self.player==bd.MaxPiece:
-            print(id(self.maxMoves))
-            self.superSaiyayin(self.bestMaxMovement,self.maxMoves)
+            self.superSaiyayin(self.bestMaxMovement,self.maxMoves)  
             return self.bestMaxMovement
-
         else:
-            self.superSaiyayin(self.bestMinMovement,self.minMoves)  
+            if(self.maxDepth>2):
+                self.superSaiyayin(self.bestMinMovement,self.minMoves)    
             return self.bestMinMovement
 
-    
+            
     def depth(self,currentBoard:bd.Board,alpha,beta,maxPiecesCoords,minPiecesCoords,depth,player):
         terminalState,utility=self.checkIfSomeoneWonForSpecificBoard(currentBoard)
         newMovement=0
@@ -75,6 +75,7 @@ class depthDecider(playDecider.playDecider):
                 if bestVal<=alpha and bestVal!=inf :
                     break
             return bestVal
+    
     def getSubBoards(self,board,coords,player):
         tablesAndCoords=[]
         for indexPiece in range(len(coords)):

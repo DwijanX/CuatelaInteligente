@@ -7,11 +7,7 @@ class playDecider():
         self.boardValidator=boardValidator
         self.visitedBoards=set()
         self.prunings=0
-        #self.availableMovements=[(0,-1),(0,1),(1,0),(-1,0),(1,-1),(-1,-1),(-1,1),(1,1)]
-        #self.availableMovements=[(1,-1),(-1,-1),(-1,1),(1,1),(0,-1),(0,1),(1,0),(-1,0)]
-        #self.availableMovements=[(-1,-1),(-1,1),(1,-1),(1,1),(0,1),(-1,0),(0,-1),(1,0)]
-        #NW,SW,NE,SE,S,W,N,E
-        #self.availableMovements=[(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, -1), (-1, 1), (1, 1)]
+        
         self.availableMovements= [(1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
     def getBestPlay(self):
         pass
