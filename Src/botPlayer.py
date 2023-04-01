@@ -7,3 +7,5 @@ class BotPlayer(player.Player):
     def makePlay(self):
         return self.playDecider.getBestPlay()
         pass
+    def getReport(self):
+        return self.playDecider.getReport()

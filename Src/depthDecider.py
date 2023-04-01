@@ -3,44 +3,64 @@ import board as bd
 import boardValidator
 import copy
 import board
-import random
+import time
 from collections import deque
 inf=9999999999
 class depthDecider(playDecider.playDecider):
-    def __init__(self, player, Board: board.Board, boardValidator: boardValidator.boardValidator,maxDepth):
-        super().__init__(player, Board, boardValidator)
+    def __init__(self, player, Board: board.Board, boardValidator: boardValidator.boardValidator,heuristic,maxDepth):
+        super().__init__(player, Board, boardValidator,heuristic)
         self.maxDepth=maxDepth
         self.maxMoves = deque()
         self.minMoves = deque()
-    
+        self.timeTook=0
+        self.turns=0
+        self.playsDone=[]
+        self.pruningsPerTurn=[]
+        self.boardsPerTurn=[]
     def superSaiyayin(self, moves, movementArray:deque):
         print(id(movementArray))
         movementArray.append(moves)
         if(len(movementArray)> 8):
             movementArray.popleft()
-            if(self.maxDepth>1 and all(movementArray[index] == movementArray[0] for index in range(0,len(movementArray), 2))):
+            if(self.maxDepth>2 and all(movementArray[index] == movementArray[0] for index in range(0,len(movementArray), 2))):
                 print("Lowered Max depth")
                 self.maxDepth -= 1
-
+    def getReport(self):
+        report={}
+        report['turns']=self.turns
+        report['timeTook']=self.timeTook
+        report['playsDone']=self.playsDone
+        report["pruningsPerTurn"]=self.pruningsPerTurn
+        report["boardsPerTurn"]=self.boardsPerTurn
+        return report
     def getBestPlay(self):
+        self.prunings=0
+        self.VisitedBoards=0
         self.visitedBoards=set()
         maxPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MaxPiece)
         minPiecesCoords=self.board.getCoordsOfPiecesOfPlayer(bd.MinPiece)
-        print(self.player)
+        timerStart = time.perf_counter()
         utility=self.depth(self.board,-inf,inf,maxPiecesCoords,minPiecesCoords,0,self.player)
+        timerEnd = time.perf_counter()
+
+        self.turns+=1
+        self.timeTook+=timerEnd-timerStart
+        self.pruningsPerTurn.append(self.prunings)
+        self.boardsPerTurn.append(self.VisitedBoards)
+
         print("Utility: ", utility)
-        if utility==inf or utility==-inf:
-            print("hmmm")
         if self.player==bd.MaxPiece:
             self.superSaiyayin(self.bestMaxMovement,self.maxMoves)  
+            self.playsDone.append(self.bestMaxMovement)
             return self.bestMaxMovement
         else:
-            if(self.maxDepth>2):
-                self.superSaiyayin(self.bestMinMovement,self.minMoves)    
+            self.superSaiyayin(self.bestMinMovement,self.minMoves)  
+            self.playsDone.append(self.bestMinMovement)  
             return self.bestMinMovement
 
             
     def depth(self,currentBoard:bd.Board,alpha,beta,maxPiecesCoords,minPiecesCoords,depth,player):
+        self.VisitedBoards+=1
         terminalState,utility=self.checkIfSomeoneWonForSpecificBoard(currentBoard)
         newMovement=0
         if terminalState or depth==self.maxDepth:
@@ -61,6 +81,7 @@ class depthDecider(playDecider.playDecider):
                 bestVal=max(bestVal,value)
                 alpha=max(alpha,bestVal)
                 if bestVal >= beta and bestVal!=-inf:
+                    self.prunings+=1
                     break
             return bestVal
         else:
@@ -73,6 +94,7 @@ class depthDecider(playDecider.playDecider):
                 bestVal=min(bestVal,value)
                 beta=min(beta,bestVal)
                 if bestVal<=alpha and bestVal!=inf :
+                    self.prunings+=1
                     break
             return bestVal
     

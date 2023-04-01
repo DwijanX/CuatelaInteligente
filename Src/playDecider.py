@@ -1,15 +1,18 @@
 import board
 import boardValidator
 class playDecider():
-    def __init__(self,player,Board:board.Board,boardValidator:boardValidator.boardValidator):
+    def __init__(self,player,Board:board.Board,boardValidator:boardValidator.boardValidator,heuristic=1):
         self.board=Board
         self.player=player
         self.boardValidator=boardValidator
         self.visitedBoards=set()
         self.prunings=0
+        self.heuristic=heuristic
         
         self.availableMovements= [(1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
     def getBestPlay(self):
+        pass
+    def getReport(self):
         pass
     def checkIfSomeoneWonForSpecificBoard(self,Board:board.Board):
         dim=self.board.getDim()
@@ -26,8 +29,10 @@ class playDecider():
         winCond3,utilityAns3=self.__checkThirdWinCond(Coords,dim)
         winCond4,utilityAns4=self.__checkFourthWinCond(Coords,dim)
         won=winCond1 or winCond2 or winCond3 or winCond4
-        Utility=utilityAns1+utilityAns2+utilityAns3+utilityAns4
-        #Utility=max(utilityAns1,utilityAns2,utilityAns3,utilityAns4)
+        if self.heuristic==1:
+            Utility=utilityAns1+utilityAns2+utilityAns3+utilityAns4
+        else:
+            Utility=max(utilityAns1,utilityAns2,utilityAns3,utilityAns4)
         if won:
             Utility=Utility*20
         return won,Utility

@@ -8,7 +8,7 @@ import time
 import playDecider
 import alphaBetaDecider
 import depthDecider
-
+import pickle
 useUI=True
 Max=1
 Min=2
@@ -18,15 +18,18 @@ class Game():
         self.boardValidator=bv.boardValidator(self.board)
         self.mediator = mediator
         self.turn = Max
+        
     def createPlayers(self,Ai1=True,Ai2=True):
+        self.Ai1=Ai1
+        self.Ai2=Ai2
         if Ai1:
-            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,2)
+            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,1,3)
             #decider=alphaBetaDecider.alphaBetaDecider(Max,self.board,self.boardValidator)
             self.player1=bp.BotPlayer(Max,decider)
         else:
             self.player1=pp.PersonPlayer(Max, self.mediator,useUI)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,4)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2,2)
             #decider=alphaBetaDecider.alphaBetaDecider(Min,self.board,self.boardValidator)
             self.player2=bp.BotPlayer(Min,decider)
         else:
@@ -66,6 +69,17 @@ class Game():
             print("Player 1 won")
         else:
             print("Player 2 won")
+        GameReport={}
+        if self.Ai1:
+            GameReport['Player1']=self.player1.getReport()
+        if self.Ai2:
+            GameReport['Player2']=self.player2.getReport()
+        file_name = 'GameReport6.pickle'
+        with open(file_name, 'wb') as file:
+            pickle.dump(GameReport, file)
+            print(f'Object successfully saved to "{file_name}"')
+        
+        
 
 #si los descomento se inicializa el juego antes del html por lo que no hay respuesta
 
