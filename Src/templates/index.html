@@ -73,28 +73,34 @@
         </div>
       </div>
       
-    <div class="containerForText">
-      <label for="colorSelection">Select player color:</label>
-      <select id="colorSelection">
-        <option value="black">Black</option>
-        <option value="white">White</option>
-      </select>
-      <br>
-      <label for="modeSelection">Select game mode:</label>
-      <select id="modeSelection">
-        <option value="Human vs Human">Human vs Human</option>
-        <option value="Human vs Computer">Human vs Computer</option>
-        <option value="Computer vs Computer">Computer vs Computer</option>
-      </select>
-      <br>
-      <label for="depthInput">Select computer depth:</label>
-      <input type="number" id="depthInput" name="depth" value="2" min="1" max="10">
-      <br>
-      <button id="startButton" type="button">New Game</button>
-      <div id="selected"></div>
-      <div id="moveTo"></div>
-      <div id="turn">Black Turn</div>
-  </div>
+      <div class="containerForText">
+        <label for="colorSelection">Select player color:</label>
+        <select id="colorSelection">
+          <option value="black">Black</option>
+          <option value="white">White</option>
+        </select>
+        <br>
+        <label for="modeSelection">Select game mode:</label>
+        <select id="modeSelection">
+          <option value="Human vs Human">Human vs Human</option>
+          <option value="Human vs Computer">Human vs Computer</option>
+          <option value="Computer vs Computer">Computer vs Computer</option>
+        </select>
+        <br>
+        <label for="depthInput">Select computer depth:</label>
+        <input type="number" id="depthInput" name="depth" value="2" min="1" max="10">
+        <br>
+        <button id="startButton" type="button">New Game</button>
+        <div id="selected"></div>
+        <div id="moveTo"></div>
+        <div id="turn">Black Turn</div>
+      </div>
+      <div class="moveHistory">
+        <h2>Move History</h2>
+        <ul id="moveNumbers" class="moveList"> move #</ul>
+        <ul id="blackMoves" class="moveList">Black moves</ul>
+        <ul id="whiteMoves" class="moveList">White moves</ul>
+      </div>
     </div>
       <script src="{{ url_for('static', filename='scripts/movement.js') }}"></script>
 </body>

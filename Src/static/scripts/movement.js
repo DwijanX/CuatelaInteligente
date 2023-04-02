@@ -9,7 +9,10 @@ let movement = 'actual';
 
 let serverOriginCoords
 let serverNextCoords
+
 let turn = 1
+let turnNumber = 1
+let turnText = document.querySelector('#turn')
 
 const squares = document.querySelectorAll('.square');
 const startButton = document.querySelector('#startButton');
@@ -108,6 +111,8 @@ function sendMoves(){
 }
 
 function movePiece() {
+  const moveListItem = document.createElement('li');
+
   var originCoords = [serverOriginCoords[1], serverOriginCoords[0]]; //server gives YX values
   var nextCoords = [serverNextCoords[1], serverNextCoords[0]]; //server gives YX values
   var originPiece = document.querySelector('[data-position="' + originCoords[0] + '-' + originCoords[1] + '"]');
@@ -117,17 +122,31 @@ function movePiece() {
   var temp = originPiece.innerHTML;
   originPiece.innerHTML = NextPiece.innerHTML;
   NextPiece.innerHTML = temp;
+
+  moveListItem.textContent = `${columnLetters[originCoords[0]]}${originCoords[1] + 1} to ${columnLetters[nextCoords[0]]}${nextCoords[1] + 1}`;
+
+  console.log(turnNumber)
+  if(turn == 1){
+    const turnNumberNode = document.createTextNode(turnNumber);
+    document.querySelector('#moveNumbers').appendChild(turnNumberNode);
+    document.querySelector('#blackMoves').appendChild(moveListItem);
+  }
+  else{
+    document.querySelector('#whiteMoves').appendChild(moveListItem);
+    turnNumber += 1
+  }
+  document.querySelector('.moveHistory').scrollTop = document.querySelector('.moveHistory').scrollHeight;
 }
 
 function updateTurn() {
   var turnText = document.getElementById("turn");
   if(turn == 1){
-    turnText.innerHTML = "White Turn";
+    turnText.innerHTML = "Black Turn";
     turn = 2;
   }
   else{
-    turnText.innerHTML = "Black Turn";
-    turn = 2;
+    turnText.innerHTML = "White Turn";
+    turn = 1;
   }
 }
 

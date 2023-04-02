@@ -39,9 +39,9 @@ def start_game():
     if(mode == "Computer vs Computer"):
         gameStart.createPlayers(True,True)
     if(mode == "Human vs Computer"):
-        if(color == "Black"):
+        if(color == "black"):
             gameStart.createPlayers(False,True) 
-        if(color == "White"):
+        if(color == "white"):
             gameStart.createPlayers(True,False) 
 
     gameStart.depthAi = depth
