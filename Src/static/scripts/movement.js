@@ -10,9 +10,11 @@ let movement = 'actual';
 let serverOriginCoords
 let serverNextCoords
 
-let turn = 1
-let turnNumber = 1
+let turnNumber=1
+let turn=1
+let playNumber = 1
 let turnText = document.querySelector('#turn')
+let turnRowRef
 
 const squares = document.querySelectorAll('.square');
 const startButton = document.querySelector('#startButton');
@@ -31,7 +33,7 @@ async function sendSelection(){
     color: selectedColor,
     mode: selectedMode,
     depth: selectedDepth
-})
+    })
   return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/settings');
@@ -39,15 +41,14 @@ async function sendSelection(){
     xhr.onload = function() {
       if (xhr.status === 200) {
         var response = JSON.parse(xhr.responseText);
-        if (response.success) {
+        if (response["settings changed"]) {
           console.log('settings changed successfully');
           resolve();
         } else {
           reject();
         }
       }
-    };
-    console.log("ready to send settings");
+    }
     xhr.send(settings);
     
   });
@@ -111,7 +112,6 @@ function sendMoves(){
 }
 
 function movePiece() {
-  const moveListItem = document.createElement('li');
 
   var originCoords = [serverOriginCoords[1], serverOriginCoords[0]]; //server gives YX values
   var nextCoords = [serverNextCoords[1], serverNextCoords[0]]; //server gives YX values
@@ -123,19 +123,30 @@ function movePiece() {
   originPiece.innerHTML = NextPiece.innerHTML;
   NextPiece.innerHTML = temp;
 
-  moveListItem.textContent = `${columnLetters[originCoords[0]]}${originCoords[1] + 1} to ${columnLetters[nextCoords[0]]}${nextCoords[1] + 1}`;
+  let movementText = `${columnLetters[originCoords[0]]}${originCoords[1] + 1} to ${columnLetters[nextCoords[0]]}${nextCoords[1] + 1}`;
 
-  console.log(turnNumber)
-  if(turn == 1){
-    const turnNumberNode = document.createTextNode(turnNumber);
-    document.querySelector('#moveNumbers').appendChild(turnNumberNode);
-    document.querySelector('#blackMoves').appendChild(moveListItem);
+  console.log()
+  if(playNumber %2!=0){
+    let table=document.querySelector('#historyTable')
+    turnRowRef=document.createElement("tr");
+    turnRowRef.setAttribute("id","Turn"+turnNumber)
+    let tdTurn=document.createElement("td");
+    let tdBlackMove=document.createElement("td");
+    table.appendChild(turnRowRef)
+    turnRowRef.appendChild(tdTurn)
+    turnRowRef.appendChild(tdBlackMove)
+    tdTurn.innerHTML=turnNumber
+    tdBlackMove.innerHTML=movementText
+    playNumber += 1
   }
   else{
-    document.querySelector('#whiteMoves').appendChild(moveListItem);
-    turnNumber += 1
+    let whiteMove=document.createElement("td");
+    turnRowRef.appendChild(whiteMove)
+    whiteMove.innerHTML=movementText
+    playNumber += 1
+    turnNumber+=1
   }
-  document.querySelector('.moveHistory').scrollTop = document.querySelector('.moveHistory').scrollHeight;
+  //document.querySelector('.moveHistory').scrollTop = document.querySelector('.moveHistory').scrollHeight;
 }
 
 function updateTurn() {

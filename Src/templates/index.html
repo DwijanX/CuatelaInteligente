@@ -113,9 +113,13 @@
       </div>
       <div class="moveHistory">
         <h2>Move History</h2>
-        <ul id="moveNumbers" class="moveList"> move #</ul>
-        <ul id="blackMoves" class="moveList">Black moves</ul>
-        <ul id="whiteMoves" class="moveList">White moves</ul>
+        <table id="historyTable">
+          <tr>
+            <th>Move #</th>
+            <th>Black moves</th>
+            <th>White moves</th>
+          </tr>
+        </table>
       </div>
     </div>
       <script src="{{ url_for('static', filename='scripts/movement.js') }}"></script>
