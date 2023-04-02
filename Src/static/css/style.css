@@ -231,6 +231,7 @@ h1::before{
   background-color: #f2f2f2;
   padding: 20px;
   display: flex;
+  flex-direction: column;
   width: 30%;
 }
 

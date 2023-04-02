@@ -78,17 +78,7 @@ def move():
     # return moves from python
     response = jsonify({'success': True})
     return response
-"""
-@app.route('/askForNewMoves', methods=['POST'])
-def askForNewMoves():
-    global receivedNewMoves
-    global lastMoves
-    print("asked")
-    while receivedNewMoves==False:
-        time.sleep(0.1)
-    receivedNewMoves=False
-    print("Ready to send")
-    return json.dumps(lastMoves)"""
+
 @app.route('/listenForInstructions', methods=['POST'])
 def askForNewMoves():
     global receivedNewInstructions

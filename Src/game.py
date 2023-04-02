@@ -30,7 +30,7 @@ class Game():
         else:
             self.player1=pp.PersonPlayer(Max, self.mediator,useUI)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2,self.depthAi)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,1,self.depthAi)
             #decider=alphaBetaDecider.alphaBetaDecider(Min,self.board,self.boardValidator)
             self.player2=bp.BotPlayer(Min,decider)
         else:
