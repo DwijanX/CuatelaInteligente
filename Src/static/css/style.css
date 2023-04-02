@@ -96,6 +96,31 @@
   display: block;
 }
 
+#colorSelection {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#modeSelection {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#depthInput {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+  width: 60px;
+}
+
 #turn {
   margin-top: 12px;
   margin-left: 20px;

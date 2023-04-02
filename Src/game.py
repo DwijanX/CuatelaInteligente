@@ -18,18 +18,19 @@ class Game():
         self.boardValidator=bv.boardValidator(self.board)
         self.mediator = mediator
         self.turn = Max
-        
+        self.depthAi = 2
+
     def createPlayers(self,Ai1=True,Ai2=True):
         self.Ai1=Ai1
         self.Ai2=Ai2
         if Ai1:
-            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,1,3)
+            decider=depthDecider.depthDecider(Max,self.board,self.boardValidator,1,self.depthAi)
             #decider=alphaBetaDecider.alphaBetaDecider(Max,self.board,self.boardValidator)
             self.player1=bp.BotPlayer(Max,decider)
         else:
             self.player1=pp.PersonPlayer(Max, self.mediator,useUI)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2,2)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2,self.depthAi)
             #decider=alphaBetaDecider.alphaBetaDecider(Min,self.board,self.boardValidator)
             self.player2=bp.BotPlayer(Min,decider)
         else:
@@ -60,7 +61,7 @@ class Game():
                 moves=self.__askForPlay(self.player2)
                 self.turn = Max
             print("saliendo del turno")
-            #self.mediator.sendConfirmedMoves(moves) #utilizar para front, quitar para probar back
+            self.mediator.sendConfirmedMoves(moves) #utilizar para front, quitar para probar back
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break
@@ -74,18 +75,19 @@ class Game():
             GameReport['Player1']=self.player1.getReport()
         if self.Ai2:
             GameReport['Player2']=self.player2.getReport()
+        '''
         file_name = 'GameReport6.pickle'
         with open(file_name, 'wb') as file:
             pickle.dump(GameReport, file)
             print(f'Object successfully saved to "{file_name}"')
-        
+        '''
         
 
 #si los descomento se inicializa el juego antes del html por lo que no hay respuesta
-
+'''
 useUI=False
 game_mediator = mediator.gameMediator()
 game=Game(game_mediator)
 game.createPlayers(True,True)
 game.startGame()
-
+'''

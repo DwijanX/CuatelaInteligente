@@ -9,14 +9,42 @@ app=Flask(__name__)
 gameStart = None
 receivedNewInstructions=False
 instructionsData=[]
+mode = ""
+color = ""
+depth = ""
+
+@app.route('/settings', methods=['POST'])
+def settings():
+    global mode, color, depth
+    data = request.get_json()
+    color = data.get('color')
+    mode = data.get('mode')
+    depth = data.get('depth')
+
+    print(color,mode,depth)
+    
+    return jsonify({'settings changed': True})
+
 #creates game.py environment after html was created
 @app.route('/start_game')
 def start_game():
-    global gameStart
+    global gameStart, mode, color, depth
     print("game started")
     mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
-    gameStart.createPlayers(False,True)
+
+    #true creates a bot player, false a human one
+    if(mode == "Human vs Human"):
+        gameStart.createPlayers(False,False)
+    if(mode == "Computer vs Computer"):
+        gameStart.createPlayers(True,True)
+    if(mode == "Human vs Computer"):
+        if(color == "Black"):
+            gameStart.createPlayers(False,True) 
+        if(color == "White"):
+            gameStart.createPlayers(True,False) 
+
+    gameStart.depthAi = depth
     gameStart.startGame()
     return 'Game started'
 

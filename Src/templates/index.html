@@ -72,30 +72,29 @@
           </div>
         </div>
       </div>
-
-      <!-- {% for row in board %}
-        <div class="file">
-          {% for index in [0,1,2,3] %}
-            <div class="square">
-              {% if row[index]==0 %}
-              <div class="piece empty"></div>
-              {% endif %}
-              {% if row[index]==1 %}
-              <div class="piece black"></div>
-              {% endif %}
-              {% if row[index]==2 %}
-              <div class="piece white"></div>
-              {% endif %}
-            </div>
-          {% endfor %}
-        </div>
-        {% endfor %}-->
-        <div class="containerForText">
-          <button id="startButton" type="button">newGame</button>
-          <div id="selected"></div>
-          <div id="moveTo"></div>
-          <div id="turn">Black Turn</div>
-        </div>
+      
+    <div class="containerForText">
+      <label for="colorSelection">Select player color:</label>
+      <select id="colorSelection">
+        <option value="black">Black</option>
+        <option value="white">White</option>
+      </select>
+      <br>
+      <label for="modeSelection">Select game mode:</label>
+      <select id="modeSelection">
+        <option value="Human vs Human">Human vs Human</option>
+        <option value="Human vs Computer">Human vs Computer</option>
+        <option value="Computer vs Computer">Computer vs Computer</option>
+      </select>
+      <br>
+      <label for="depthInput">Select computer depth:</label>
+      <input type="number" id="depthInput" name="depth" value="2" min="1" max="10">
+      <br>
+      <button id="startButton" type="button">New Game</button>
+      <div id="selected"></div>
+      <div id="moveTo"></div>
+      <div id="turn">Black Turn</div>
+  </div>
     </div>
       <script src="{{ url_for('static', filename='scripts/movement.js') }}"></script>
 </body>

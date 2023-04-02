@@ -13,13 +13,49 @@ let turn = 1
 
 const squares = document.querySelectorAll('.square');
 const startButton = document.querySelector('#startButton');
+const modeSelection = document.querySelector('#modeSelection');
+const colorSelection = document.querySelector('#colorSelection');
+const depthInput = document.querySelector('#depthInput');
+
+
+async function sendSelection(){
+  const selectedColor = colorSelection.value;
+  const selectedMode = modeSelection.value;
+  const selectedDepth = depthInput.value;
+  console.log(selectedColor,selectedMode,selectedDepth)
+
+  settings = JSON.stringify({
+    color: selectedColor,
+    mode: selectedMode,
+    depth: selectedDepth
+})
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/settings');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          console.log('settings changed successfully');
+          resolve();
+        } else {
+          reject();
+        }
+      }
+    };
+    console.log("ready to send settings");
+    xhr.send(settings);
+    
+  });
+}
 
 async function startGame(){
-    console.log("inicializando");
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/start_game');
-    xhr.send();
-    await listener()
+  console.log("inicializando");
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/start_game');
+  xhr.send();
+  await listener()
 }
 
 
@@ -181,6 +217,7 @@ async function listener()
 
 
 startButton.addEventListener("click", function() {
+  sendSelection();
   startGame();
 });
 
