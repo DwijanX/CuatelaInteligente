@@ -18,7 +18,7 @@ class Game():
         self.boardValidator=bv.boardValidator(self.board)
         self.mediator = mediator
         self.turn = Max
-        self.depthAi = 1
+        self.depthAi = 2
 
     def createPlayers(self,Ai1=True,Ai2=True):
         self.Ai1=Ai1
@@ -65,7 +65,7 @@ class Game():
             winCheckVar=self.boardValidator.checkIfSomeoneWon()
             if bv.noOneWon!=winCheckVar:
                 break
-        self.mediator.notifyGameOver()
+        #self.mediator.notifyGameOver()
         if(winCheckVar==bv.MaxWon):
             print("Player 1 won")
         else:

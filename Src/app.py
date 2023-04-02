@@ -32,7 +32,7 @@ def start_game():
     print("game started")
     mediatorGame=mediator.gameMediator()
     gameStart=game.Game(mediatorGame)
-
+    gameStart.depthAi = depth
     #true creates a bot player, false a human one
     if(mode == "Human vs Human"):
         gameStart.createPlayers(False,False)
@@ -43,8 +43,7 @@ def start_game():
             gameStart.createPlayers(False,True) 
         if(color == "white"):
             gameStart.createPlayers(True,False) 
-
-    gameStart.depthAi = depth
+    
     gameStart.startGame()
     return 'Game started'
 

@@ -1,3 +1,10 @@
+# Installation Guide
+Install libraries:
+
+    * pip install -r requirements.txt
+Run app.py:
+
+    * python .\Src\app.py
 # Test MinMax WithDepth(cut-off) with 2 (or more) different heuristics, which one is better?
 
 We tested 2 different heuristics. Both heuristics assign values to each check to see if the game is over, based on whether a piece fulfills certain conditions. The difference between the two heuristics is:
@@ -77,3 +84,7 @@ We also need to consider that like chess, Cuatela has the flaw that the first pl
 
 If the heuristic is not the best one available, then increasing the depth will not fix the problems with that heuristic. Therefore, to truly create a bot that can win against all others and be omnipotent, careful consideration must be given to the heuristic used, as it is the most critical part of such programs.
 
+### Created By
+
+    1. Cari Nicolas
+    2. Rivero Christian
