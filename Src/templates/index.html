@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
     <div class="title">
@@ -14,65 +15,80 @@
       <h3 id="chris" data-text="Christian_Rivero">Christian_Rivero</h3>
     </div>
     <div class="container">
-      <div class="board">
-        <div class="file">
-          <div class="square" data-position="0-0">
-            <div class="piece black"></div>
-          </div>
-          <div class="square" data-position="0-1">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="0-2">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="0-3">
-            <div class="piece white"></div>
+      <div class="playingField">
+        <div class="column">
+          <div>A</div>
+          <div>B</div>
+          <div>C</div>
+          <div>D</div>
+        </div>
+        <div class="rowsField">
+        <div class="rows">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+        </div>
+        <div class="board">
+            <div class="file">
+              <div class="square" data-position="0-0">
+                <div class="piece black"></div>
+              </div>
+              <div class="square" data-position="0-1">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="0-2">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="0-3">
+                <div class="piece white"></div>
+              </div>
+            </div>
+            <div class="file">
+              <div class="square" data-position="1-0">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="1-1">
+                <div class="piece black"></div>
+              </div>
+              <div class="square" data-position="1-2">
+                <div class="piece white"></div>
+              </div>
+              <div class="square" data-position="1-3">
+                <div class="piece empty"></div>
+              </div>
+            </div>
+            <div class="file">
+              <div class="square" data-position="2-0">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="2-1">
+                <div class="piece white"></div>
+              </div>
+              <div class="square" data-position="2-2">
+                <div class="piece black"></div>
+              </div>
+              <div class="square" data-position="2-3">
+                <div class="piece empty"></div>
+              </div>
+            </div>
+            <div class="file">
+              <div class="square" data-position="3-0">
+                <div class="piece white"></div>
+              </div>
+              <div class="square" data-position="3-1">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="3-2">
+                <div class="piece empty"></div>
+              </div>
+              <div class="square" data-position="3-3">
+                <div class="piece black"></div>
+              </div>
           </div>
         </div>
-        <div class="file">
-          <div class="square" data-position="1-0">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="1-1">
-            <div class="piece black"></div>
-          </div>
-          <div class="square" data-position="1-2">
-            <div class="piece white"></div>
-          </div>
-          <div class="square" data-position="1-3">
-            <div class="piece empty"></div>
-          </div>
-        </div>
-        <div class="file">
-          <div class="square" data-position="2-0">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="2-1">
-            <div class="piece white"></div>
-          </div>
-          <div class="square" data-position="2-2">
-            <div class="piece black"></div>
-          </div>
-          <div class="square" data-position="2-3">
-            <div class="piece empty"></div>
-          </div>
-        </div>
-        <div class="file">
-          <div class="square" data-position="3-0">
-            <div class="piece white"></div>
-          </div>
-          <div class="square" data-position="3-1">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="3-2">
-            <div class="piece empty"></div>
-          </div>
-          <div class="square" data-position="3-3">
-            <div class="piece black"></div>
-          </div>
         </div>
       </div>
-      
       <div class="containerForText">
         <label for="colorSelection">Select player color:</label>
         <select id="colorSelection">

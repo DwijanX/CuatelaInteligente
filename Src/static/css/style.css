@@ -248,3 +248,37 @@ h1::before{
 .moveList li {
   margin-bottom: 5px;
 }
+
+.playingField{
+  display: flex;
+  flex-direction: column;
+}
+
+.playingField .column{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.column div{
+  padding-left: 3rem;
+  padding-right: 5rem;
+}
+
+
+.rowsField{
+  display: flex;
+  flex-direction: row;
+}
+
+.rows{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+ .rows div{
+  height: 100px;
+  padding-top: 2rem;
+}

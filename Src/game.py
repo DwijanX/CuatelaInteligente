@@ -18,7 +18,7 @@ class Game():
         self.boardValidator=bv.boardValidator(self.board)
         self.mediator = mediator
         self.turn = Max
-        self.depthAi = 2
+        self.depthAi = 1
 
     def createPlayers(self,Ai1=True,Ai2=True):
         self.Ai1=Ai1
@@ -30,7 +30,7 @@ class Game():
         else:
             self.player1=pp.PersonPlayer(Max, self.mediator,useUI)
         if Ai2:
-            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,2,self.depthAi)
+            decider=depthDecider.depthDecider(Min,self.board,self.boardValidator,1,self.depthAi)
             #decider=alphaBetaDecider.alphaBetaDecider(Min,self.board,self.boardValidator)
             self.player2=bp.BotPlayer(Min,decider)
         else:
